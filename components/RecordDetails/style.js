@@ -22,6 +22,7 @@ const footer = {
 };
 
 const displayTiming = {
+  maxWidth: '70%',
   marginRight: 16,
 };
 
@@ -35,14 +36,6 @@ const select = {
   marginBottom: 16,
 };
 
-const picker = {
-  height: 64,
-  backgroundColor: 'rgb(231, 231, 231)',
-  borderTopLeftRadius: 4,
-  borderTopRightRadius: 4,
-  border: 'none',
-};
-
 export default {
   header,
   content,
@@ -50,5 +43,4 @@ export default {
   displayTiming,
   formGroup,
   select,
-  picker,
 }

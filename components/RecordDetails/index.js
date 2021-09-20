@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Text, View, ScrollView } from 'react-native';
-import { Picker } from '@react-native-picker/picker'
+import ModalSelector from 'react-native-modal-selector'
 import {
   Button, 
   Card,
@@ -142,7 +142,7 @@ const RecordDetails = ({
   };
 
   const handleChangeRecordType = (newRecordType) => {
-    setSelectedRecordType(newRecordType);
+    setSelectedRecordType(newRecordType.id);
   };
 
   const renderRecord = (parentKey) => {
@@ -207,15 +207,23 @@ const RecordDetails = ({
               <Subheading>
                 Record Types
               </Subheading>
-              <Picker
-                selectedValue={selectedRecordType}
-                onValueChange={handleChangeRecordType}
-                style={style.picker}
+              <ModalSelector
+                data={recordTypes}
+                keyExtractor={(item) => item.id}
+                labelExtractor={(item) => item.name}
+                initValue="Select a record type"
+                selectedKey={selectedRecordType}
+                onChange={handleChangeRecordType}
+                initValueTextStyle={style.picker}
               >
-                {recordTypes.map((recordType) => (
-                  <Picker.Item key={recordType.id} label={recordType.name} value={recordType.id} />
-                ))}
-              </Picker>
+                <TextInput
+                  mode={styles?.inputVariant}
+                  editable={false}
+                  placeholder="Select a record type"
+                  value={recordTypes.find((recordType) => recordType.id === +selectedRecordType)?.name  || ''}
+                />
+                <Text>▼</Text>
+              </ModalSelector>
             </View>
           )}
           <View style={style.content}>
