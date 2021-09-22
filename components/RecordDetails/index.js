@@ -199,7 +199,7 @@ const RecordDetails = ({
       >
         <Card.Content>
           <View style={style.header}>
-            <Title>Record Summary</Title>
+            <Title>{options.title || 'Record Summary'}</Title>
             <Button mode="contained" onPress={handleDelete}>Delete</Button>
           </View>
           {!guid && (
@@ -222,7 +222,6 @@ const RecordDetails = ({
                   placeholder="Select a record type"
                   value={recordTypes.find((recordType) => recordType.id === +selectedRecordType)?.name  || ''}
                 />
-                <Text>▼</Text>
               </ModalSelector>
             </View>
           )}
