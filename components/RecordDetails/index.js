@@ -8,10 +8,12 @@ import {
   Paragraph,
   TextInput,
   Title,
+  Provider as PaperProvider,
 } from 'react-native-paper';
 import get from 'lodash.get';
 import set from 'lodash.set';
 
+import theme from '../../theme';
 import { createAxios } from '../../utils/axios';
 import { snakeToTitle, camelToSnake } from '../../utils/string';
 import { schemaToJSON } from '../../utils/json';
@@ -175,7 +177,7 @@ const RecordDetails = ({
             <TextInput
               mode={styles?.inputVariant}
               value={value}
-              editable={options.updatable}
+              editable={options?.updatable}
               onChangeText={handleChangeRecord(parentKey)}
             />
           </View>
@@ -189,62 +191,64 @@ const RecordDetails = ({
   }
 
   return (
-    <ScrollView>
-      <Card 
-        elevation={options.elevation}
-        style={{
-          backgroundColor: styles?.backgroundColor || '#fff',
-          color: styles?.fontColor || 'rgba(0, 0, 0, 0.87)',
-        }}
-      >
-        <Card.Content>
-          <View style={style.header}>
-            <Title>{options.title || 'Record Summary'}</Title>
-            <Button mode="contained" onPress={handleDelete}>Delete</Button>
-          </View>
-          {!guid && (
-            <View style={style.select}>
-              <Subheading>
-                Record Types
-              </Subheading>
-              <ModalSelector
-                data={recordTypes}
-                keyExtractor={(item) => item.id}
-                labelExtractor={(item) => item.name}
-                initValue="Select a record type"
-                selectedKey={selectedRecordType}
-                onChange={handleChangeRecordType}
-                initValueTextStyle={style.picker}
-              >
-                <TextInput
-                  mode={styles?.inputVariant}
-                  editable={false}
-                  placeholder="Select a record type"
-                  value={recordTypes.find((recordType) => recordType.id === +selectedRecordType)?.name  || ''}
-                />
-              </ModalSelector>
+    <PaperProvider theme={theme}>
+      <ScrollView>
+        <Card
+          elevation={options?.elevation || 3}
+          style={{
+            backgroundColor: styles?.backgroundColor || '#fff',
+            color: styles?.fontColor || 'rgba(0, 0, 0, 0.87)',
+          }}
+        >
+          <Card.Content>
+            <View style={style.header}>
+              <Title>{options?.title || 'Record Summary'}</Title>
+              <Button mode="contained" onPress={handleDelete}>Delete</Button>
             </View>
-          )}
-          <View style={style.content}>
-            {Object.keys(record).map((key) => (
-              renderRecord(key)
-            ))}
-          </View>
-          <View style={style.footer}>
-            {options.displayTiming && (
-              <Paragraph style={style.displayTiming}>
-                {`Round-trip time ${timing} ms Server time ${serverTime} ms`}
-              </Paragraph>
+            {!guid && (
+              <View style={style.select}>
+                <Subheading>
+                  Record Types
+                </Subheading>
+                <ModalSelector
+                  data={recordTypes}
+                  keyExtractor={(item) => item.id}
+                  labelExtractor={(item) => item.name}
+                  initValue="Select a record type"
+                  selectedKey={selectedRecordType}
+                  onChange={handleChangeRecordType}
+                  initValueTextStyle={style.picker}
+                >
+                  <TextInput
+                    mode={styles?.inputVariant}
+                    editable={false}
+                    placeholder="Select a record type"
+                    value={recordTypes.find((recordType) => recordType.id === +selectedRecordType)?.name  || ''}
+                  />
+                </ModalSelector>
+              </View>
             )}
-            {options.updatable && (
-              <Button mode="contained" disabled={submitting} onClick={handleSubmit}>
-                {guid ? 'Save' : 'Create'}
-              </Button>
-            )}
-          </View>
-        </Card.Content>
-      </Card>
-    </ScrollView>
+            <View style={style.content}>
+              {Object.keys(record).map((key) => (
+                renderRecord(key)
+              ))}
+            </View>
+            <View style={style.footer}>
+              {options?.displayTiming && (
+                <Paragraph style={style.displayTiming}>
+                  {`Round-trip time ${timing} ms Server time ${serverTime} ms`}
+                </Paragraph>
+              )}
+              {options?.updatable && (
+                <Button mode="contained" disabled={submitting} onClick={handleSubmit}>
+                  {guid ? 'Save' : 'Create'}
+                </Button>
+              )}
+            </View>
+          </Card.Content>
+        </Card>
+      </ScrollView>
+    </PaperProvider>
   )
 };
 

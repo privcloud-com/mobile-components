@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { Card, DataTable, Paragraph } from 'react-native-paper';
+import { Card, DataTable, Paragraph, Provider as PaperProvider } from 'react-native-paper';
 import { Text, View, ScrollView } from 'react-native';
 import get from 'lodash.get';
 
 import { createAxios } from '../../utils/axios';
+import theme from '../../theme';
 
 import style from './style';
 
@@ -108,55 +109,57 @@ const RecordList = ({ token, containerGuid, recordTypeId, options }) => {
   }, [records]);
 
   return (
-    <ScrollView>
-      <Card elevation={options.elevation || 3}>
-        <Card.Title title={options.title} />
-        {isLoading ? (
-          <View style={style.loading}>
-            <Text>Loading...</Text>
-          </View>
-        ) : (
-          <Card.Content>
-            <DataTable>
-              <DataTable.Header>
-                {recordColumns.map(({ title, field }) => (
-                  <DataTable.Title key={field}>{title}</DataTable.Title>
-                ))}
-              </DataTable.Header>
-  
-              {records.map((record) => (
-                <DataTable.Row key={record.id}>
-                  {recordColumns.map(({ field }) => (
-                    <DataTable.Cell key={field}>
-                      {get(record, field)}
-                    </DataTable.Cell>
+    <PaperProvider theme={theme}>
+      <ScrollView>
+        <Card elevation={options?.elevation || 3}>
+          <Card.Title title={options?.title || 'Record List'} />
+          {isLoading ? (
+            <View style={style.loading}>
+              <Text>Loading...</Text>
+            </View>
+          ) : (
+            <Card.Content>
+              <DataTable>
+                <DataTable.Header>
+                  {recordColumns.map(({ title, field }) => (
+                    <DataTable.Title key={field}>{title}</DataTable.Title>
                   ))}
-                </DataTable.Row>
-              ))}
-              
-              <DataTable.Pagination
-                page={currentPage}
-                numberOfPages={Math.ceil(totalCount / pageSize)}
-                label={`${currentPage * pageSize + 1}-${(currentPage + 1) * pageSize} of ${totalCount}`}
-                optionsPerPage={optionsPerPage}
-                itemsPerPage={pageSize}
-                showFastPagination
-                optionsLabel={'Rows per page'}
-                setItemsPerPage={setPageSize}
-                onPageChange={(page) => setCurrentPage(page)}
-              />
-            </DataTable>
-          </Card.Content>
-        )}
+                </DataTable.Header>
+    
+                {records.map((record) => (
+                  <DataTable.Row key={record.id}>
+                    {recordColumns.map(({ field }) => (
+                      <DataTable.Cell key={field}>
+                        {get(record, field)}
+                      </DataTable.Cell>
+                    ))}
+                  </DataTable.Row>
+                ))}
+                
+                <DataTable.Pagination
+                  page={currentPage}
+                  numberOfPages={Math.ceil(totalCount / pageSize)}
+                  label={`${currentPage * pageSize + 1}-${(currentPage + 1) * pageSize} of ${totalCount}`}
+                  optionsPerPage={optionsPerPage}
+                  itemsPerPage={pageSize}
+                  showFastPagination
+                  optionsLabel={'Rows per page'}
+                  setItemsPerPage={setPageSize}
+                  onPageChange={(page) => setCurrentPage(page)}
+                />
+              </DataTable>
+            </Card.Content>
+          )}
 
-        {options.displayTiming && !isLoading && (
-          <Paragraph style={style.displayTiming}>
-            {`Round-trip time ${timing} ms Server time ${serverTime} ms`}
-          </Paragraph>
-        )}
-      </Card>
-    </ScrollView>
-  )
+          {options?.displayTiming && !isLoading && (
+            <Paragraph style={style.displayTiming}>
+              {`Round-trip time ${timing} ms Server time ${serverTime} ms`}
+            </Paragraph>
+          )}
+        </Card>
+      </ScrollView>
+    </PaperProvider>
+  );
 };
 
 export default RecordList;

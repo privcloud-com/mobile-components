@@ -1,4 +1,25 @@
 {
+  "name": "privcloud-mobile-components",
+  "version": "1.0.0",
+  "description": "Privcloud mobile components snippet",
+  "author": "Arda Unverdi",
+  "license": "MIT",
+  "source": "index.js",
+  "react-native": "index.js",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/privcloud-com/privcloud-mobile-components.git"
+  },
+  "bugs": {
+    "url": "https://github.com/privcloud-com/privcloud-mobile-components.git/issues"
+  },
+  "keywords": [
+    "android",
+    "ios",
+    "react native",
+    "privcloud"
+  ],
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -24,6 +45,5 @@
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
-  },
-  "private": true
+  }
 }
