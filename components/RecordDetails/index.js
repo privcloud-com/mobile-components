@@ -148,11 +148,14 @@ const RecordDetails = ({
   };
 
   const renderRecord = (parentKey) => {
-    const value = get(record, parentKey);
+    let value = get(record, parentKey);
     const paths = parentKey.split('.');
+
+    value = typeof value === 'string' ? value : value.toString();
+
     if (typeof value === 'object') {
       return (
-        <View style={style.formGroup}>
+        <View key={parentKey} style={style.formGroup}>
           <View key={`${parentKey}_key`}>
             <Subheading>
               {snakeToTitle(camelToSnake(paths[paths.length - 1]))}
@@ -167,7 +170,7 @@ const RecordDetails = ({
       )
     } else {
       return (
-        <View style={style.formGroup}>
+        <View key={parentKey} style={style.formGroup}>
           <View key={`${parentKey}_key`}>
             <Subheading>
               {snakeToTitle(camelToSnake(paths[paths.length - 1]))}
