@@ -1,6 +1,6 @@
 {
   "name": "privcloud-mobile-components",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Privcloud mobile components snippet",
   "author": "Arda Unverdi",
   "license": "MIT",
@@ -14,34 +14,29 @@
   "bugs": {
     "url": "https://github.com/privcloud-com/privcloud-mobile-components.git/issues"
   },
+  "homepage": "https://github.com/privcloud-com/privcloud-mobile-components#readme",
   "keywords": [
     "android",
     "ios",
     "react native",
     "privcloud"
   ],
-  "main": "node_modules/expo/AppEntry.js",
-  "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "eject": "expo eject"
+  "main": "index.js",
+  "peerDependencies": {
+    "expo": "~42.0.1",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native-vector-icons": "^8.1.0",
+    "react-native-web": "~0.13.12"
   },
   "dependencies": {
     "axios": "^0.21.4",
     "axios-middleware": "^0.3.1",
-    "expo": "~42.0.1",
-    "expo-status-bar": "~1.0.4",
     "lodash.get": "^4.4.2",
     "lodash.set": "^4.3.2",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-modal-selector": "^2.1.0",
-    "react-native-paper": "^4.9.2",
-    "react-native-vector-icons": "^8.1.0",
-    "react-native-web": "~0.13.12"
+    "react-native-paper": "^4.9.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

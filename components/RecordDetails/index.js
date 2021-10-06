@@ -194,64 +194,62 @@ const RecordDetails = ({
   }
 
   return (
-    <PaperProvider theme={theme}>
-      <ScrollView>
-        <Card
-          elevation={options?.elevation || 3}
-          style={{
-            backgroundColor: styles?.backgroundColor || '#fff',
-            color: styles?.fontColor || 'rgba(0, 0, 0, 0.87)',
-          }}
-        >
-          <Card.Content>
-            <View style={style.header}>
-              <Title>{options?.title || 'Record Summary'}</Title>
-              <Button mode="contained" onPress={handleDelete}>Delete</Button>
+    <ScrollView>
+      <Card
+        elevation={options?.elevation || 3}
+        style={{
+          backgroundColor: styles?.backgroundColor || '#fff',
+          color: styles?.fontColor || 'rgba(0, 0, 0, 0.87)',
+        }}
+      >
+        <Card.Content>
+          <View style={style.header}>
+            <Title>{options?.title || 'Record Summary'}</Title>
+            <Button mode="contained" onPress={handleDelete}>Delete</Button>
+          </View>
+          {!guid && (
+            <View style={style.select}>
+              <Subheading>
+                Record Types
+              </Subheading>
+              <ModalSelector
+                data={recordTypes}
+                keyExtractor={(item) => item.id}
+                labelExtractor={(item) => item.name}
+                initValue="Select a record type"
+                selectedKey={selectedRecordType}
+                onChange={handleChangeRecordType}
+                initValueTextStyle={style.picker}
+              >
+                <TextInput
+                  mode={styles?.inputVariant}
+                  editable={false}
+                  placeholder="Select a record type"
+                  value={recordTypes.find((recordType) => recordType.id === +selectedRecordType)?.name  || ''}
+                />
+              </ModalSelector>
             </View>
-            {!guid && (
-              <View style={style.select}>
-                <Subheading>
-                  Record Types
-                </Subheading>
-                <ModalSelector
-                  data={recordTypes}
-                  keyExtractor={(item) => item.id}
-                  labelExtractor={(item) => item.name}
-                  initValue="Select a record type"
-                  selectedKey={selectedRecordType}
-                  onChange={handleChangeRecordType}
-                  initValueTextStyle={style.picker}
-                >
-                  <TextInput
-                    mode={styles?.inputVariant}
-                    editable={false}
-                    placeholder="Select a record type"
-                    value={recordTypes.find((recordType) => recordType.id === +selectedRecordType)?.name  || ''}
-                  />
-                </ModalSelector>
-              </View>
+          )}
+          <View style={style.content}>
+            {Object.keys(record).map((key) => (
+              renderRecord(key)
+            ))}
+          </View>
+          <View style={style.footer}>
+            {options?.displayTiming && (
+              <Paragraph style={style.displayTiming}>
+                {`Round-trip time ${timing} ms Server time ${serverTime} ms`}
+              </Paragraph>
             )}
-            <View style={style.content}>
-              {Object.keys(record).map((key) => (
-                renderRecord(key)
-              ))}
-            </View>
-            <View style={style.footer}>
-              {options?.displayTiming && (
-                <Paragraph style={style.displayTiming}>
-                  {`Round-trip time ${timing} ms Server time ${serverTime} ms`}
-                </Paragraph>
-              )}
-              {options?.updatable && (
-                <Button mode="contained" disabled={submitting} onClick={handleSubmit}>
-                  {guid ? 'Save' : 'Create'}
-                </Button>
-              )}
-            </View>
-          </Card.Content>
-        </Card>
-      </ScrollView>
-    </PaperProvider>
+            {options?.updatable && (
+              <Button mode="contained" disabled={submitting} onClick={handleSubmit}>
+                {guid ? 'Save' : 'Create'}
+              </Button>
+            )}
+          </View>
+        </Card.Content>
+      </Card>
+    </ScrollView>
   )
 };
 
